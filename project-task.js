@@ -57,11 +57,21 @@ while (true) {
     if (action === "add") {
         let animal = readlineSync.question("Enter the animal's name: ");
         let fee = Number(readlineSync.question("Enter the adoption fee: "));
-        addAnimal(animal, fee);
-        console.log(`${animal} added with a fee of $${fee}.`);
+        try {
+        addAnimal(animal, fee); 
+        console.log(`${animal} added with a fee of $${fee}.`); //Gave the custom error of Invalid animal name or adoption fee, added a try catch that will keep the program running and alert user of the issue
+        } catch {
+            console.log(`Animal name or fee invalid. Please enter a valid name and number!`);
+            console.log(`You tried to add "${animal}" with a fee of ${fee}.`);
+        }
     } else if (action === "fee") {
         let animal = readlineSync.question("Enter the animal's name to find its adoption fee: ");
-        console.log(`${animal}'s adoption fee is $${getAdoptionFee(animal)}.`);
+       try{
+        console.log(`${animal}'s adoption fee is $${getAdoptionFee(animal)}.`); 
+        } catch(err){
+            console.log(`You did not enter a valid name. Please try again!`);
+            console.log(`You tried to access the animal named "${animal}"`);
+        } //When entering an animal name that doesn't exist it gives the custom error "Animal not found in records", added a try/catch that keeps the program running and informs user of issue
     } else {
         console.log("Invalid action. Please choose 'add', 'fee', or 'exit'.");
     }
@@ -74,10 +84,14 @@ Problems to Solve
 
 Invalid Input Errors:
   What happens if the user provides a negative adoption fee or leaves the name blank?
+  Entered response on line 62
+
   What happens if the user tries to find the fee for an animal that hasn’t been added?
+Entered response on line 74
 
 Code Flow Problems:
   What happens if the program throws an exception? Does the rest of the code continue running?
+The rest of the code does not continue to run. Originally the program stopped completely, but now once an error is detected the program will prompt for a proper input and start over
 
 Structured Exception Handling:
   Add try/catch blocks to handle the above errors gracefully.
